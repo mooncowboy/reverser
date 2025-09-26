@@ -1,0 +1,14 @@
+{
+  "name": "reverser",
+  "version": "1.0.0",
+  "description": "A simple string reverser application with frontend and backend",
+  "scripts": {
+    "install-all": "cd backend && npm install && cd ../frontend && npm install",
+    "start-backend": "cd backend && npm start",
+    "start-frontend": "cd frontend && npm start",
+    "dev": "npm run start-backend & npm run start-frontend"
+  },
+  "keywords": ["string", "reverse", "nodejs", "express"],
+  "author": "",
+  "license": "MIT"
+}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>String Reverser</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .main-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 2rem;
+            margin-top: 5rem;
+        }
+        .title {
+            color: #333;
+            font-weight: 300;
+            margin-bottom: 2rem;
+        }
+        .result-container {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            border-left: 4px solid #667eea;
+        }
+        .btn-reverse {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            padding: 0.75rem 2rem;
+        }
+        .btn-reverse:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .loading {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="main-container">
+                    <h1 class="title text-center">🔄 String Reverser</h1>
+                    <p class="text-muted text-center mb-4">Enter any text and see it reversed instantly!</p>
+                    
+                    <form id="reverseForm">
+                        <div class="mb-3">
+                            <label for="inputText" class="form-label">Enter your text:</label>
+                            <textarea 
+                                class="form-control" 
+                                id="inputText" 
+                                rows="4" 
+                                placeholder="Type something here..."
+                                required
+                            ></textarea>
+                        </div>
+                        
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-reverse">
+                                <span class="loading spinner-border spinner-border-sm me-2" role="status"></span>
+                                Reverse Text
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <div id="resultContainer" class="result-container" style="display: none;">
+                        <h5 class="mb-3">🎉 Reversed Text:</h5>
+                        <div id="reversedText" class="fs-5 font-monospace text-break"></div>
+                        <hr>
+                        <small class="text-muted">
+                            <strong>Original:</strong> <span id="originalText"></span>
+                        </small>
+                    </div>
+                    
+                    <div id="errorContainer" class="alert alert-danger" style="display: none;">
+                        <strong>Error:</strong> <span id="errorMessage"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Custom JS -->
+    <script src="app.js"></script>
+</body>
+</html>
