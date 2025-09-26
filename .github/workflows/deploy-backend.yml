@@ -64,6 +64,9 @@ jobs:
       with:
         appSourcePath: ${{ github.workspace }}
         acrName: ${{ secrets.AZURE_CONTAINER_REGISTRY }}
+        acrUsername: ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }}
+        acrPassword: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
+        containerAppEnvironment: ${{ env.CONTAINER_APP_ENVIRONMENT }}
         containerAppName: ${{ env.CONTAINER_APP_NAME }}
         resourceGroup: ${{ env.RESOURCE_GROUP }}
         imageToDeploy: ${{ env.AZURE_CONTAINER_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
