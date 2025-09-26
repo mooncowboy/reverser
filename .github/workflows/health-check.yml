@@ -1,0 +1,51 @@
+name: Health Check
+
+on:
+  schedule:
+    # Run health check every 5 minutes
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Check Frontend Health
+      run: |
+        if [[ -n "${{ secrets.FRONTEND_CONTAINER_APP_URL }}" ]]; then
+          echo "Checking frontend health at: ${{ secrets.FRONTEND_CONTAINER_APP_URL }}"
+          curl -f "${{ secrets.FRONTEND_CONTAINER_APP_URL }}" || exit 1
+          echo "✅ Frontend is healthy"
+        else
+          echo "⚠️ FRONTEND_CONTAINER_APP_URL secret not configured"
+        fi
+
+    - name: Check Backend Health
+      run: |
+        if [[ -n "${{ secrets.BACKEND_CONTAINER_APP_URL }}" ]]; then
+          echo "Checking backend health at: ${{ secrets.BACKEND_CONTAINER_APP_URL }}"
+          curl -f "${{ secrets.BACKEND_CONTAINER_APP_URL }}" || exit 1
+          echo "✅ Backend is healthy"
+        else
+          echo "⚠️ BACKEND_CONTAINER_APP_URL secret not configured"
+        fi
+
+    - name: Test API Functionality
+      run: |
+        if [[ -n "${{ secrets.BACKEND_CONTAINER_APP_URL }}" ]]; then
+          echo "Testing API functionality..."
+          response=$(curl -s -X POST "${{ secrets.BACKEND_CONTAINER_APP_URL }}/reverse" \
+            -H "Content-Type: application/json" \
+            -d '{"text":"GitHub Actions"}')
+          
+          echo "API Response: $response"
+          
+          if [[ $response == *"snoitcA buHtiG"* ]]; then
+            echo "✅ API is working correctly"
+          else
+            echo "❌ API test failed"
+            exit 1
+          fi
+        fi

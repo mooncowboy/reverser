@@ -1,5 +1,9 @@
 # String Reverser
 
+[![Deploy Frontend](https://github.com/mooncowboy/reverser/actions/workflows/deploy-frontend.yml/badge.svg)](https://github.com/mooncowboy/reverser/actions/workflows/deploy-frontend.yml)
+[![Deploy Backend](https://github.com/mooncowboy/reverser/actions/workflows/deploy-backend.yml/badge.svg)](https://github.com/mooncowboy/reverser/actions/workflows/deploy-backend.yml)
+[![Health Check](https://github.com/mooncowboy/reverser/actions/workflows/health-check.yml/badge.svg)](https://github.com/mooncowboy/reverser/actions/workflows/health-check.yml)
+
 A simple web application that reverses strings, consisting of a frontend and backend built with Node.js and Express.
 
 ## Features
@@ -116,6 +120,14 @@ Both applications support custom ports via the `PORT` environment variable:
 
 ```
 reverser/
+├── .github/
+│   ├── workflows/
+│   │   ├── deploy-backend.yml      # Backend deployment workflow
+│   │   ├── deploy-frontend.yml     # Frontend deployment workflow
+│   │   └── health-check.yml        # Health monitoring workflow
+│   ├── DEPLOYMENT.md              # Detailed deployment guide
+│   ├── secrets-template.md        # GitHub secrets template
+│   └── setup-azure.sh             # Azure infrastructure setup script
 ├── backend/
 │   ├── package.json
 │   ├── server.js
@@ -184,3 +196,27 @@ docker-compose logs
 ```bash
 docker-compose down
 ```
+
+## CI/CD Deployment
+
+The project includes automated deployment to Azure Container Apps using GitHub Actions:
+
+- **Frontend**: Deploys automatically when files in `frontend/` directory change
+- **Backend**: Deploys automatically when files in `backend/` directory change
+
+### Required GitHub Secrets
+
+For Azure Container Apps deployment, configure these secrets in your GitHub repository:
+
+```
+AZURE_CONTAINER_REGISTRY              # ACR login server
+AZURE_CONTAINER_REGISTRY_USERNAME     # ACR username  
+AZURE_CONTAINER_REGISTRY_PASSWORD     # ACR password
+AZURE_CREDENTIALS                     # Azure service principal (JSON)
+AZURE_RESOURCE_GROUP                  # Resource group name
+AZURE_CONTAINER_APP_ENVIRONMENT       # Container Apps environment
+FRONTEND_CONTAINER_APP_NAME           # Frontend app name
+BACKEND_CONTAINER_APP_NAME            # Backend app name
+```
+
+See [Deployment Documentation](.github/DEPLOYMENT.md) for detailed setup instructions.
