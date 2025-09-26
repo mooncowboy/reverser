@@ -13,6 +13,9 @@ on:
       - '.github/workflows/deploy-frontend.yml'
   workflow_dispatch:
 
+permissions:
+  id-token: write
+
 env:
   REGISTRY_NAME: ${{ secrets.AZURE_CONTAINER_REGISTRY }}
   IMAGE_NAME: reverser-frontend
