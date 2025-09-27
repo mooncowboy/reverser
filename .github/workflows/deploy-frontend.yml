@@ -68,8 +68,7 @@ jobs:
             --name ${{ env.CONTAINER_APP_NAME }} \
             --resource-group ${{ env.RESOURCE_GROUP }} \
             --image ${{ secrets.AZURE_CONTAINER_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} \
-            --environment ${{ env.CONTAINER_APP_ENVIRONMENT }} \
-            --cpu 0.5 --memory 1.0Gi
+            
             
 
     - name: Logout from Azure
