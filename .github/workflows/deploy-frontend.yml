@@ -23,7 +23,7 @@ env:
   CONTAINER_APP_NAME: reverser-frontend
   RESOURCE_GROUP: ${{ secrets.AZURE_RESOURCE_GROUP }}
   CONTAINER_APP_ENVIRONMENT: ${{ secrets.AZURE_CONTAINER_APP_ENVIRONMENT }}
-  BACKEND_URL: ${{ env.BACKEND_URL }}
+  BACKEND_URL: ${{ secrets.BACKEND_URL }}
 
 jobs:
   build-and-deploy:
