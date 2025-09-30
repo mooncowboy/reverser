@@ -23,6 +23,7 @@ env:
   CONTAINER_APP_NAME: reverser-frontend
   RESOURCE_GROUP: ${{ secrets.AZURE_RESOURCE_GROUP }}
   CONTAINER_APP_ENVIRONMENT: ${{ secrets.AZURE_CONTAINER_APP_ENVIRONMENT }}
+  BACKEND_URL: ${{ env.BACKEND_URL }}
 
 jobs:
   build-and-deploy:
@@ -48,6 +49,8 @@ jobs:
         context: ./frontend
         file: ./frontend/Dockerfile
         push: true
+        build-args: |
+          BACKEND_URL=${{ env.BACKEND_URL }}
         tags: |
           ${{ secrets.AZURE_CONTAINER_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
           ${{ secrets.AZURE_CONTAINER_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
@@ -69,8 +72,6 @@ jobs:
             --resource-group ${{ env.RESOURCE_GROUP }} \
             --image ${{ secrets.AZURE_CONTAINER_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} \
             
-            
-
     - name: Logout from Azure
       run: az logout
       if: always()
