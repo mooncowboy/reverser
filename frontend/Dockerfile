@@ -13,6 +13,15 @@ RUN npm ci --only=production
 # Copy application code
 COPY . .
 
+# Build argument for backend URL
+ARG BACKEND_URL=http://localhost:4000
+
+# Set environment variable for build script
+ENV BACKEND_URL=${BACKEND_URL}
+
+# Run build script to inject environment variables
+RUN npm run build
+
 # Create a non-root user to run the application
 RUN addgroup -g 1001 -S nodejs
 RUN adduser -S nextjs -u 1001
