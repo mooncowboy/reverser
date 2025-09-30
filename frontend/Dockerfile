@@ -1,10 +1,9 @@
-# Use the official Node.js 18 Alpine image
-FROM node:18-alpine
+FROM node:18-alpine AS builder
 
 # Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json (if available)
+# Copy package files
 COPY package*.json ./
 
 # Install dependencies
@@ -22,24 +21,34 @@ ENV BACKEND_URL=${BACKEND_URL}
 # Run build script to inject environment variables
 RUN npm run build
 
-# Create a non-root user to run the application
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S nextjs -u 1001
+# Production stage
+FROM node:18-alpine
 
-# Change ownership of the app directory to the nodejs user
-RUN chown -R nextjs:nodejs /app
+# Create app user
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nextjs -u 1001
 
-# Switch to the non-root user
+# Set working directory
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install production dependencies
+RUN npm ci --only=production && npm cache clean --force
+
+# Copy built application from builder stage
+COPY --from=builder --chown=nextjs:nodejs /app .
+
+# Switch to non-root user
 USER nextjs
 
-# Expose the port the app runs on
+# Expose port
 EXPOSE 3000
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD node -e "require('http').get('http://localhost:3000', (res) => { \
-    if (res.statusCode === 200) process.exit(0); else process.exit(1); \
-  }).on('error', () => process.exit(1))"
+    CMD curl -f http://localhost:3000/ || exit 1
 
-# Command to run the application
+# Start the application
 CMD ["npm", "start"]
